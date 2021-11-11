@@ -1,50 +1,52 @@
+/* eslint-disable max-classes-per-file */
 import Gantt from './core';
 
 const GanttStrings = {
-  'Gantt.MoveActivity': 'Move "{name}"',
-  'Gantt.ChangeActivityRow': 'Change "{name}" of row',
+  'Gantt.MoveActivity': 'Mover "{name}"',
+  'Gantt.ChangeActivityRow': 'Cambiar "{name}" de fila',
   'timeLine.changeRowItem.fmt':
     '<div class="dragg-item-content"><h2 class="dragg-title">{title}</h2><table>' +
-    '<tr><td class="dragg-item-property">From row</td><td class="table-separator"></td><td class="dragg-item-value">{start}</td></tr>' +
-    '<tr><td class="dragg-item-property">At date</td><td class="table-separator"></td><td class="dragg-item-value">{startRow}</td></tr>' +
-    '<tr><td class="dragg-item-property">To row</td><td class="table-separator"></td><td class="dragg-item-value">{current}</td></tr>' +
-    '<tr><td class="dragg-item-property">At date</td><td class="table-separator"></td><td class="dragg-item-value">{currentRow}</td></tr>' +
+    '<tr><td class="dragg-item-property">Desde fila</td><td class="table-separator"></td><td class="dragg-item-value">{start}</td></tr>' +
+    '<tr><td class="dragg-item-property">En fecha</td><td class="table-separator"></td><td class="dragg-item-value">{startRow}</td></tr>' +
+    '<tr><td class="dragg-item-property">A fila</td><td class="table-separator"></td><td class="dragg-item-value">{current}</td></tr>' +
+    '<tr><td class="dragg-item-property">En fecha</td><td class="table-separator"></td><td class="dragg-item-value">{currentRow}</td></tr>' +
     '</table></div>',
   'timeLine.newTimeItem.fmt':
     '<div class="dragg-item-content"><h2 class="dragg-title {draggStatusClass}">{title}</h2><table>' +
-    '<tr><td class="dragg-item-property">From</td><td class="table-separator"></td><td class="dragg-item-value">{start}</td></tr>' +
-    '<tr><td class="dragg-item-property">To</td><td class="table-separator"></td><td class="dragg-item-value">{current}</td></tr>' +
+    '<tr><td class="dragg-item-property">Desde</td><td class="table-separator"></td><td class="dragg-item-value">{start}</td></tr>' +
+    '<tr><td class="dragg-item-property">A</td><td class="table-separator"></td><td class="dragg-item-value">{current}</td></tr>' +
     '</table></div>',
-  'gantt.loading': 'Loading',
-  'gantt.error.details': 'Details',
+  'gantt.loading': 'Cargando',
+  'gantt.error.details': 'Detalles',
   'gantt.error.title.fmt': '{msg} : {title}',
   'gantt.toolbar.mini.text': 'Mini',
   'gantt.toolbar.minimize.text': 'Compact',
   'gantt.toolbar.normal.text': 'Normal',
-  'gantt.toolbar.mini.tooltip': 'Change row height',
-  'gantt.toolbar.fit.tooltip': 'Fit',
-  'gantt.toolbar.refresh.text': 'Refresh',
-  'gantt.toolbar.refresh.tooltip': 'Refresh',
-  'gantt.toolbar.zoomIn.tooltip': 'Zoom In',
-  'gantt.toolbar.zoomOut.tooltip': 'Zoom Out',
-  'gantt.loadResourceChart.load.title': 'Load',
-  'gantt.loadResourceChart.show.tooltip': 'Show Load chart',
-  'gantt.loadResourceChart.hide.tooltip': 'Hide Load chart',
-  'gantt.loadResourceChart.noSelection.title': 'Select one or more resources to display in the load chart',
-  'gantt.constraintChart.from': 'From',
-  'gantt.constraintChart.to': 'To',
-  'gantt.constraintChart.type': 'Type',
-  'gantt.constraintChart.start.start': 'Start to Start',
-  'gantt.constraintChart.start.end': 'End to Start',
-  'gantt.constraintChart.end.end': 'End to End',
-  'gantt.constraintChart.end.start': 'End to Start',
-  'gantt.name': 'Name',
+  'gantt.toolbar.mini.tooltip': 'Cambiar altura de fila',
+  'gantt.toolbar.fit.tooltip': 'Ajustar',
+  'gantt.toolbar.refresh.text': 'Recargar',
+  'gantt.toolbar.refresh.tooltip': 'Recargar',
+  'gantt.toolbar.zoomIn.tooltip': 'Acercar',
+  'gantt.toolbar.zoomOut.tooltip': 'Alejar',
+  'gantt.loadResourceChart.load.title': 'Cargar',
+  'gantt.loadResourceChart.show.tooltip': 'Mostrar tabla de carga',
+  'gantt.loadResourceChart.hide.tooltip': 'Ocultar tabla de carga',
+  'gantt.loadResourceChart.noSelection.title': 'Seleccione uno o mas recursos a mostrar en la tabla de carga',
+  // 'gantt.loadResourceChart.noSelection.title': 'Select one or more resources to display in the load chart',
+  'gantt.constraintChart.from': 'Desde',
+  'gantt.constraintChart.to': 'Hasta',
+  'gantt.constraintChart.type': 'Tipo',
+  'gantt.constraintChart.start.start': 'Inicio a inicio',
+  'gantt.constraintChart.start.end': 'Inicio a fin',
+  'gantt.constraintChart.end.end': 'Fin a fin',
+  'gantt.constraintChart.end.start': 'Fin a inicio',
+  'gantt.name': 'Nombre',
   'gantt.id': 'Id',
-  'gantt.start': 'Start',
-  'gantt.end': 'End',
-  'gantt.datatables.empty-table': 'No data available in table',
-  'gantt.error.no-time-window-defined': 'No time window defined',
-  'gantt.columns': 'columns',
+  'gantt.start': 'Inicio',
+  'gantt.end': 'Fin',
+  'gantt.datatables.empty-table': 'No hay datos a mostrar',
+  'gantt.error.no-time-window-defined': 'No hay datos a mostrar',
+  'gantt.columns': 'columnas',
 };
 
 let intl = {
@@ -57,6 +59,7 @@ let intl = {
     }
     return message;
   },
+  locale: 'es',
 };
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
@@ -72,13 +75,13 @@ Gantt.utils = {
   createDateParser(format) {
     let i = 0;
     const fmt = {};
-    const year = 'year';
-    const month = 'month';
-    const day = 'day';
-    const hour = 'hour';
-    const min = 'min';
-    const secs = 'secs';
-    const millis = 'millis';
+    const year = 'año';
+    const month = 'mes';
+    const day = 'día';
+    const hour = 'hora';
+    const min = 'minuto';
+    const secs = 'segundos';
+    const millis = 'milisegundos';
     const convertor = {
       yyyy: year,
       yy: year,
@@ -327,7 +330,7 @@ Gantt.utils = {
   formatString(tpl, obj) {
     // tpl = this.getString(tpl, tpl);
     // return tpl.replace(/\{(\w+)\}/g, (_, key) => obj[key]);
-    return this.getIntl().formatMessage({ id: tpl, defaultMessage: obj}, obj);
+    return this.getIntl().formatMessage({ id: tpl, defaultMessage: obj }, obj);
   },
   addEventListener(target, evt, cb, capture) {
     if (target.addEventListener) {
@@ -725,46 +728,46 @@ dateFormat.masks = {
 // Internationalization strings
 dateFormat.i18n = {
   dayNames: [
-    'Sun',
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
+    'Dom',
+    'Lun',
+    'Mar',
+    'Mie',
+    'Jue',
+    'Vie',
+    'Sab',
+    'Domingo',
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
   ],
   monthNames: [
-    'Jan',
+    'Ene',
     'Feb',
     'Mar',
-    'Apr',
+    'Abr',
     'May',
     'Jun',
     'Jul',
-    'Aug',
+    'Ago',
     'Sep',
     'Oct',
     'Nov',
-    'Dec',
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    'Dic',
+    'Enero',
+    'Febrero',
+    'Marzo',
+    'Abril',
+    'Mayo',
+    'Junio',
+    'Julio',
+    'Agosto',
+    'Septiembre',
+    'Octubre',
+    'Noviembre',
+    'Diciembre',
   ],
 };
 
@@ -840,7 +843,7 @@ class Palette extends Gantt.components.Palette {
         }
       }
       if (!size || size !== keyCount) {
-        console.error(`Unkown palette configuration ${config}`);
+        console.error(`Configuracion de paleta desconocida ${config}`);
         console.log(config);
         this._getColors = () => null;
         this.colorSet = null;

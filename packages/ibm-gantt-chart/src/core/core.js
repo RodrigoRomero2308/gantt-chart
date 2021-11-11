@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import 'font-awesome/css/font-awesome.css';
 
 /* eslint-disable */
