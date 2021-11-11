@@ -133,6 +133,27 @@ const config = {
     'zoomIn',
     'zoomOut',
   ],
+  table: {
+    columns: [
+      {
+        name: 'rowNumbers',
+        remove: true,
+      },
+      {
+        name: 'hierarchy',
+        remove: true,
+      },
+      {
+        title: 'Equipo',
+        renderer: {
+          text(activity) {
+            console.log(activity.name);
+            return activity?.name;
+          },
+        },
+      },
+    ],
+  },
   title: 'Simple Gantt', // Title for the Gantt to be displayed in the toolbar
 };
 
