@@ -154,6 +154,23 @@ const config = {
       },
     ],
   },
+  timeTable: {
+    renderer: [
+      {
+        textOverflow: 'noDisplay',
+        tooltip: (element, activity) => {
+          const activityData = activity.getData();
+          const titleHtml = `<div class="gantt-tooltip-title">${activityData.name}</div>`;
+          const dataHtml = `<div class="gantt-tooltip-data"><span>#KEY: </span><span>#VALUE</span></div>`;
+
+          const html = `${titleHtml}`;
+
+          element.innerHTML = html;
+          return html;
+        },
+      },
+    ],
+  },
   title: 'Simple Gantt', // Title for the Gantt to be displayed in the toolbar
 };
 

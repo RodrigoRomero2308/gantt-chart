@@ -160,9 +160,11 @@ class Tooltip extends Gantt.components.Tooltip {
       this._showTimer = setTimeout(() => {
         delete this._showTimer;
         this._tooltip.style.visibility = 'visible';
+        this._tooltip.style.display = 'unset';
       }, ctx.showDelay);
     } else {
       this._tooltip.style.visibility = 'visible';
+      this._tooltip.style.display = 'unset';
     }
   }
 
@@ -201,19 +203,19 @@ class Tooltip extends Gantt.components.Tooltip {
           this._hideCB();
         }
         this._hideCB = null;
-        this._tooltip.style.display = 'none';
+        this._tooltip.style.visibility = 'hidden';
       }, millis);
     } else {
       if (cb) {
         cb();
       }
       this._tooltipElt = null;
-      this._tooltip.style.display = 'none';
+      this._tooltip.style.visibility = 'hidden';
     }
   }
 
   installTooltip(config) {
-    const TOOLTIP_FADING_TIME = 1000;
+    const TOOLTIP_FADING_TIME = 500;
     const TOOLTIP_SHOWING_DELAY = 800;
 
     Gantt.utils.addEventListener(
