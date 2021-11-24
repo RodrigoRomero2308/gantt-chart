@@ -155,6 +155,7 @@ const config = {
     ],
   },
   timeTable: {
+    showTooltipsOnClick: true,
     renderer: [
       {
         textOverflow: 'noDisplay',

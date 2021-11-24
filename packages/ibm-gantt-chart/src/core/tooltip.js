@@ -218,56 +218,85 @@ class Tooltip extends Gantt.components.Tooltip {
     const TOOLTIP_FADING_TIME = 500;
     const TOOLTIP_SHOWING_DELAY = 800;
 
-    Gantt.utils.addEventListener(
-      config.container,
-      'mouseenter',
-      evt => {
-        // console.log('Enter ' + printElement(evt.target) + ', relatedTarget: ' + (evt.relatedTarget && printElement(evt.relatedTarget) || 'none'));
-        const tooltipNode = config.getTooltipElement(evt.target);
-        if (tooltipNode) {
-          const tooltipData = config.getTooltipData && config.getTooltipData(tooltipNode);
-          if (config.enteringTooltipElement && config.enteringTooltipElement(tooltipNode, tooltipData) === false) {
-            // During a drag n drop for example.
-            return;
-          }
-          const ctx = {
-            limitElt: (config.getTooltipDisplayContainer && config.getTooltipDisplayContainer()) || document.body,
-            showDelay: TOOLTIP_SHOWING_DELAY,
-          };
-          // console.log('   show tooltip: ' + tooltipNode);
-          this.showTooltip(tooltipNode, ctx, parent => {
-            config.renderTooltip(tooltipNode, tooltipData, parent);
-          });
-        } else {
-          this.hideTooltip(TOOLTIP_FADING_TIME);
-        }
-      },
-      true
-    );
-    Gantt.utils.addEventListener(
-      config.container,
-      'mouseleave',
-      evt => {
-        // console.log('Leave ' + printElement(evt.target) + ', relatedTarget: ' + (evt.relatedTarget && printElement(evt.relatedTarget) || 'none'));
-        const tooltipNode = config.getTooltipElement(evt.target);
-        if (tooltipNode) {
-          if (this._tooltipElt === tooltipNode) {
+    if (config.showTooltipsOnClick) {
+      Gantt.utils.addEventListener(
+        config.container,
+        'click',
+        evt => {
+          // console.log('Enter ' + printElement(evt.target) + ', relatedTarget: ' + (evt.relatedTarget && printElement(evt.relatedTarget) || 'none'));
+          const tooltipNode = config.getTooltipElement(evt.target);
+          if (tooltipNode) {
             const tooltipData = config.getTooltipData && config.getTooltipData(tooltipNode);
-            if (config.leavingTooltipElement && config.leavingTooltipElement(tooltipNode, tooltipData) === false) {
-              // To leave displayed the tooltip after leaving the element we show the tooltip for.
+            if (config.enteringTooltipElement && config.enteringTooltipElement(tooltipNode, tooltipData) === false) {
+              // During a drag n drop for example.
               return;
             }
-            if (evt.relatedTarget && config.getTooltipElement(evt.relatedTarget) === tooltipNode) {
-              // If the element the mouse is moving in is still in the tooltip node, do nothing.
-              return;
-            }
+            const ctx = {
+              limitElt: (config.getTooltipDisplayContainer && config.getTooltipDisplayContainer()) || document.body,
+              showDelay: TOOLTIP_SHOWING_DELAY,
+            };
+            // console.log('   show tooltip: ' + tooltipNode);
+            this.showTooltip(tooltipNode, ctx, parent => {
+              config.renderTooltip(tooltipNode, tooltipData, parent);
+            });
+          } else {
+            this.hideTooltip(TOOLTIP_FADING_TIME);
           }
-          // Otherwise hide the tooltip
-          this.hideTooltip(TOOLTIP_FADING_TIME);
-        }
-      },
-      true
-    );
+        },
+        true
+      );
+    } else {
+      Gantt.utils.addEventListener(
+        config.container,
+        'mouseenter',
+        evt => {
+          // console.log('Enter ' + printElement(evt.target) + ', relatedTarget: ' + (evt.relatedTarget && printElement(evt.relatedTarget) || 'none'));
+          const tooltipNode = config.getTooltipElement(evt.target);
+          if (tooltipNode) {
+            const tooltipData = config.getTooltipData && config.getTooltipData(tooltipNode);
+            if (config.enteringTooltipElement && config.enteringTooltipElement(tooltipNode, tooltipData) === false) {
+              // During a drag n drop for example.
+              return;
+            }
+            const ctx = {
+              limitElt: (config.getTooltipDisplayContainer && config.getTooltipDisplayContainer()) || document.body,
+              showDelay: TOOLTIP_SHOWING_DELAY,
+            };
+            // console.log('   show tooltip: ' + tooltipNode);
+            this.showTooltip(tooltipNode, ctx, parent => {
+              config.renderTooltip(tooltipNode, tooltipData, parent);
+            });
+          } else {
+            this.hideTooltip(TOOLTIP_FADING_TIME);
+          }
+        },
+        true
+      );
+      Gantt.utils.addEventListener(
+        config.container,
+        'mouseleave',
+        evt => {
+          // console.log('Leave ' + printElement(evt.target) + ', relatedTarget: ' + (evt.relatedTarget && printElement(evt.relatedTarget) || 'none'));
+          const tooltipNode = config.getTooltipElement(evt.target);
+          if (tooltipNode) {
+            if (this._tooltipElt === tooltipNode) {
+              const tooltipData = config.getTooltipData && config.getTooltipData(tooltipNode);
+              if (config.leavingTooltipElement && config.leavingTooltipElement(tooltipNode, tooltipData) === false) {
+                // To leave displayed the tooltip after leaving the element we show the tooltip for.
+                return;
+              }
+              if (evt.relatedTarget && config.getTooltipElement(evt.relatedTarget) === tooltipNode) {
+                // If the element the mouse is moving in is still in the tooltip node, do nothing.
+                return;
+              }
+            }
+            // Otherwise hide the tooltip
+            this.hideTooltip(TOOLTIP_FADING_TIME);
+          }
+        },
+        true
+      );
+    }
   }
 }
 

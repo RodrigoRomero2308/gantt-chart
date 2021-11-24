@@ -31,7 +31,7 @@ export default class TimeTable extends Gantt.components.TimeTable {
     super(gantt, node, Gantt.utils.mergeObjects({}, defaultOptions, config));
 
     // Selection management
-    Gantt.utils.addEventListener(node, 'click', e => this.processClick(e), true);
+    if (!config.showTooltipOnClick) Gantt.utils.addEventListener(node, 'click', e => this.processClick(e), true);
     Gantt.utils.addEventListener(node, 'dblclick', e => this.processDoubleClick(e), true);
     Gantt.utils.addEventListener(node, 'contextmenu', e => this.processMouseDown(e), true);
     const selectionHandler = gantt.selection;
@@ -681,6 +681,7 @@ export default class TimeTable extends Gantt.components.TimeTable {
           timeTable.highlightActivity(actNode, false, true);
         }
       },
+      showTooltipsOnClick: this.config && this.config.showTooltipsOnClick,
     });
   }
 
